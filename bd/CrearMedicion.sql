@@ -1,0 +1,6 @@
+CREATE TABLE Medicion (
+    ID INTEGER(9) NOT NULL,
+    medida TEXT NOT NULL,
+    fecha VARCHAR (10) NOT NULL,
+    PRIMARY KEY (ID AUTOINCREMENT)
+);

@@ -1,0 +1,132 @@
+<!-- ---------------------------------------------------- -->
+<!-- ---------------------------------------------------- -->
+<!DOCTYPE html>
+<html>
+
+<!-- ---------------------------------------------------- -->
+<!-- ---------------------------------------------------- -->
+<head>
+<meta charset="utf-8"/>         
+
+<!-- ---------------------------------------------------- -->
+<script src="logicaFake/prueba.js"></script>
+<script src="logicaFake/insertarMedicion.js"></script>
+<script src="logicaFake/mostrarMedicion.js"></script>
+<link rel="stylesheet" type="text/css" href="./Estilos/Estilos.css">
+
+
+
+<!-- ---------------------------------------------------- -->
+
+<!-- ---------------------------------------------------- -->
+<script>
+function insertarMedicionPulsado() {
+
+var ID = document.getElementById("ID").value
+var medida = document.getElementById("medida").value
+var fecha = document.getElementById("fecha").value
+
+// llamo a la función de la lógica (versión fake)
+insertarMedicion( {ID: ID, medida:  medida, fecha:  fecha }, function( err, res ) {
+  // cuando tenga el resultado lo muestro
+ if ( err ) {
+   alert( " hubo un error de transmisión http: " + err )
+   return
+ } else if ( res.error ) {
+   alert( " hubo un error en la llamada: " + JSON.stringify( res.error ) )
+   return
+ }
+  document.getElementById("salida").innerHTML = " resultado= " + res;
+})
+
+}
+</script>
+
+
+<script>
+function Actualizar(){
+  setInterval(mostrarMedicionesPulsado,2000);
+}
+
+
+function mostrarMedicionesPulsado() {
+
+// llamo a la función de la lógica (versión fake)
+mostrarMediciones( function( err, res ) {
+  // cuando tenga el resultado lo muestro
+ if ( err ) {
+   alert( " hubo un error de transmisión http: " + err )
+   return
+ } else if ( res.error ) {
+   alert( " hubo un error en la llamada: " + JSON.stringify( res.error ) )
+   return
+ }
+ document.getElementById("salida").innerHTML="";
+  document.getElementById("salida").appendChild(mostrarTMediciones(res)) ;
+})
+
+}
+
+
+
+function mostrarTMediciones(res){
+  let table= document.createElement("table");
+  let tr=document.createElement("tr")
+
+  let th=document.createElement("th")
+  th.appendChild(document.createTextNode("ID"));
+  table.appendChild(th);
+  th=document.createElement("th")
+  th.appendChild(document.createTextNode("MEDIDA"));
+  table.appendChild(th);
+  th=document.createElement("th")
+  th.appendChild(document.createTextNode("FECHA"));
+  table.appendChild(th);
+
+  let td;
+  for( let i=0; i<(res.length);i++){
+    tr=document.createElement("tr");
+    
+    td=document.createElement("td")
+    td.appendChild(document.createTextNode(res[i].ID));
+    tr.appendChild(td);
+    td=document.createElement("td")
+    td.appendChild(document.createTextNode(res[i].medida));
+    tr.appendChild(td);
+    td=document.createElement("td")
+    td.appendChild(document.createTextNode(res[i].fecha));
+    tr.appendChild(td);   
+    
+    table.appendChild(tr);
+
+  }
+  return table;
+}
+</script> 
+
+
+
+
+
+  </head>
+
+
+<!-- ---------------------------------------------------- -->
+<!-- ---------------------------------------------------- -->
+<body onload="Actualizar() ">
+  
+
+<h1>Mediciones</h1>
+
+</p>
+<p id="salida"></p>  
+</p>
+
+ 
+
+</body>
+</html>
+<!-- ---------------------------------------------------- -->
+<!-- ---------------------------------------------------- -->
+<!-- ---------------------------------------------------- -->
+<!-- ---------------------------------------------------- -->
